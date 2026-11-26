@@ -1,18 +1,27 @@
 #!/usr/bin/env python3
-"""Entrypoint for news-image-20261125: copy the pre-rendered front page to /output.
+"""Entry program for news-image-20261125 (rev2, full-day edition).
 
-The image was drawn by render.py (PIL + Noto Serif) from the verified 25 November
-2026 stories listed in stories.md. This program does no network access and writes
-the same bytes on every run.
+Copies the pre-rendered broadsheet (entry.png, drawn by render.py from the
+verified 25 November 2026 news list in stories.md) to /output/entry.png.
+
+Deterministic and offline: same input bytes, same output bytes, every run.
 """
 import os
 import shutil
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
+
 def main():
-    os.makedirs("/output", exist_ok=True)
-    shutil.copyfile(os.path.join(HERE, "entry.png"), "/output/entry.png")
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "out")
+    os.makedirs(out_dir, exist_ok=True)
+    src = os.path.join(HERE, "entry.png")
+    dst = os.path.join(out_dir, "entry.png")
+    shutil.copyfile(src, dst)
+    print("wrote %s (%d bytes)" % (dst, os.path.getsize(dst)))
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
