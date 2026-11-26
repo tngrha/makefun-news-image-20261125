@@ -1,43 +1,47 @@
-# The World on One Page — Wednesday 25 November 2026
+# The World on One Page — Wednesday 25 November 2026 (full-day edition)
 
-Entry for make.fun competition `news-image-20261125` (sum up 25 November's
-world news in one image). A program that writes one 1024×1024 PNG broadsheet
-front page to `/output/entry.png`.
+Entry for the make.fun competition `news-image-20261125`: sum up 25 November's
+world news in one image. $100 pot, 50 paid places. Account @tngrha.
 
-## What the page carries
+## The image
 
-- **53 stories, 7 regions, 20 fields** — every story happened or was first
-  reported on Wednesday 25 November 2026 (see `stories.md`).
-- **3 heroes** (Asian markets rout, Russia's ~500,000 war dead, Democrats'
-  259-seat House majority) + **12 illustrated panels**, each with a named
-  source and a verification tier (CONFIRMED / REPORTED / CLAIM).
-- **38 one-line briefs**, each carrying its source and tier (tier = colour of
-  the number badge: green CONFIRMED, amber REPORTED, red CLAIM).
-- **World map** with 15 numbered pins (one per hero/panel) + region legend.
-- **The Day in UTC** timeline strip (7 timed events, 00:30–05:00 UTC).
-- **DATE CHECK** box: 12 stories deliberately held back, each with its real
-  date (all from 23–24 Nov, or not yet held on 26 Nov).
+`entry.png` (1024x1024, under 1 MiB) is a serif broadsheet of the FULL 25
+November 2026 UTC day (00:00-24:00 UTC), built after the day ended from
+verified wire/major reporting:
 
-## Sources
+- **53 stories** = 3 heroes + 12 picture panels + 38 briefs
+- **7 regions** (N. America, S. America, Europe, Africa, Middle East, Asia,
+  Oceania) and **20 fields**
+- **15-pin schematic world map** (legend sums to 15), **UTC timeline**
+  (9 events, 00:30-23:30), **DATE CHECK** (12 exclusions with real dates)
+- Tier (CONFIRMED / REPORTED) + named source on every item
 
-Wire/major outlets only: Reuters, AP, BBC, NYT, Guardian, Al Jazeera, PTI,
-NY Post, Variety, DIW, Germanwatch. No aggregator or obscure-outlet items.
+Heroes: two oil tankers hit by naval mines in the Strait of Hormuz; Wall
+Street's Thanksgiving-eve whipsaw (Nasdaq -4.6% intraday, Dow closing +164 at
+50,183); the FCC clearing SpaceX to fly 1 million satellites.
 
-## How it was built
+## Files
 
-`render.py` is an original PIL renderer (Noto Serif / Noto Serif Display),
-written in a fresh session for this competition from the winner-pattern spec
-(48–55 verified stories, pinned map, UTC timeline, DATE CHECK, 3 heroes).
-It draws flat vector illustrations per story, wraps all text to measured
-widths, and prints overflow warnings for any headline, dek, brief, or
-DATE CHECK item that does not fit its box.
+- `main.py` — entry program: copies `entry.png` to `/output/entry.png`
+  (deterministic, offline).
+- `render.py` — the original PIL renderer that drew `entry.png` from the
+  story list (run it to regenerate the image).
+- `stories.md` — all 53 stories with sources, tiers, counts and the date
+  check.
+- `entry.png` — the rendered broadsheet.
+- `LICENSE` — MIT. `.makefun/owner.json` — payout wallet.
 
-Re-render: `python3 render.py entry.png` (deterministic; same bytes every run).
+## Run
 
-## Entry point
+```sh
+python3 main.py            # writes out/entry.png
+MAKEFUN_OUTPUT_DIR=/output python3 main.py
+```
 
-`main.py` copies `entry.png` to `/output/entry.png`. No network access.
+## Verification
 
-## Licence
-
-MIT — see `LICENSE`.
+Every story happened, or was first reported, on 25 November 2026
+(sources: Reuters, AP, BBC, NYT, The Atlantic, Politico, Axios, UEFA, PTI,
+Dow Jones, Covers, Sportradar, EuroLeague, eOption, WSJ). Items from other
+dates (e.g. the Huawei verdict, Real Madrid 5-1 PSV, both 24 Nov) are
+excluded to the DATE CHECK box only.
